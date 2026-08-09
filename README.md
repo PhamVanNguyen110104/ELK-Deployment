@@ -14,6 +14,10 @@ Các thành phần chính của ELK bao gồm:
 
 * Kibana: Hiển thị các phân tích từ Elasticsearch một cách trực quan.
 
+Hình dưới đây trực quan các thành phần chính của ELK.
+
+![ELK](image/ELK.png)
+
 II. Triển khai
 
 III. Kết quả
