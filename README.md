@@ -36,15 +36,21 @@ Các thành phần của ELK sẽ được triển khai trên các máy ảo đ�
 
 Trước khi cài đặt các thành phần của hệ thống, trên máy ELK và máy Ubuntu cần chạy hai lệnh sau:
 
+```bash
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+```
 
+```bash
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+```
 
 Câu lệnh đầu tiên sẽ tải tệp có chứa khóa GPG (GNU Privacy Guard) - cặp khóa mật mã cho ký số và xác thực dữ liệu từ Elastic - với chế độ im lặng (quiet mode) nhưng ghi nội dung đã tải được ra màn hình, sau đó thêm khóa GPG này vào hệ thống APT (Advanced Package Tool) - hệ thống quản lý các gói phần mềm mặc định của Ubuntu. Sau khi thực thi câu lệnh đầu tiên, câu lệnh thứ hai sẽ thêm repository của Elastic vào hệ thống APT để tải về các thành phần của ELK bằng lệnh apt.
 
 Tiếp theo, ta chạy câu lệnh tải Filebeat về máy Ubuntu:
 
+```bash
 sudo apt-get install filebeat
+```
 
 Toàn bộ các tệp cấu hình của Filebeat sau khi tải về sẽ nằm trong thư mục /etc/filebeat. Trong thư mục này, tệp cấu hình chính là filebeat.yml. Tệp này cấu hình các chức năng của Filebeat.
 
@@ -70,7 +76,7 @@ Phần cuối cùng cần được cấu hình là đầu ra của Filebeat. Do 
 
 Winlogbeat được tải về từ trang chủ của Elastic (https://www.elastic.co/downloads/past-releases/winlogbeat-7-17-29) và được về thư mục C:\Users\MayWindows\Desktop\winlogbeat. Tệp cấu hình các chức năng chính của Winlogbeat là winlogbeat.yml.
 
-Giống như Filebeat, phần đầu tiên cần được cấu hình là phần đầu vào của Winlogbeat (phần winlogbeat.event_logs). Đó là dữ liệu log mà ELK muốn thu thập như Application, System, Security, Sysmon,. . . như hình dưới đây.
+Giống như Filebeat, phần đầu tiên cần được cấu hình là phần đầu vào của Winlogbeat (phần winlogbeat.event_logs). Đó là dữ liệu log mà ELK muốn thu thập như Application, System, Security, Sysmon,... như hình dưới đây.
 
 ![Winlogbeat1](image/Winlogbeat1.png)
 
@@ -94,7 +100,9 @@ Tên đăng nhập và mật khẩu đăng nhập vào Elasticsearch sẽ đư�
 
 Câu lệnh cài đặt Logstash bằng APT là:
 
+```bash
 sudo apt-get install logstash
+```
 
 Các tệp cấu hình của Logstash nằm trong thư mục /etc/logstash. Trong thư mục này, hai tệp cấu hình chính của Logstash là logstash.yml (cấu hình hoạt động của Logstash) và pipelines.yml (cấu hình pipeline các tệp cấu hình xử lý dữ liệu log). Ở đây, hai tệp cấu hình trên được giữ nguyên.
 
@@ -104,7 +112,9 @@ Trong thư mục cấu hình của Logstash, có một thư mục quyết địn
 
 Câu lệnh cài đặt Elasticsearch bằng hệ thống APT là:
 
+```bash
 sudo apt-get install elasticsearch
+```
 
 Các tệp cấu hình của Elasticsearch nằm trong thư mục /etc/elasticsearch. Trong thư mục này, tệp cấu hình các chức năng chính của Elasticsearch là elasticsearch.yml.
 
@@ -120,7 +130,9 @@ Phần cấu hình thứ hai là mục Security. Đây là chức năng quan tr�
 
 Câu lệnh cài đặt Kibana bằng hệ thống APT là:
 
+```bash
 sudo apt-get install kibana
+```
 
 Các tệp cấu hình của Kibana nằm trong thư mục /etc/kibana. Trong thư mục này, tệp cấu hình các chức năng chính của Kibana là kibana.yml.
 
@@ -134,7 +146,9 @@ Phần cấu hình tiếp theo là URL trỏ đến Elasticsearch mà Kibana mu�
 
 Phần cấu hình tiếp theo là tài khoản đăng nhập vào Elasticsearch. Trước khi thực hiện cấu hình này, tài khoản truy cập Elasticsearch cần được tạo mật khẩu mới với tên tài khoản mặc định là "elastic". Việc này được thực hiện bởi một shell script tạo mật khẩu Elasticsearch có tên elasticsearch-setup-passwords, nằm tại đường dẫn /usr/share/elasticsearch/bin. Câu lệnh chạy script này là:
 
+```bash
 ./usr/share/elasticsearch/bin/elasticsearch-setup-passwords [auto/interactive]
+```
 
 Nếu muốn tạo một mật khẩu ngẫu nhiên thì chọn giá trị auto; ngược lại, nếu muốn chỉ định một mật khẩu thì chọn giá trị interactive và gõ mật khẩu đó theo hướng dẫn của script. Ở đây, mật khẩu là "123456". Sau khi tạo mật khẩu thành công, chúng ta có thể nhập tên đăng nhập và mật khẩu trên vào hai dòng cấu hình elasticsearch.username và elasticsearch.password như hình dưới đây.
 
@@ -148,26 +162,74 @@ xpack.encryptedSavedObjects.encryptionKey: A7kP2mX9qL4vN8cR1tY6uB3dF5gH0jWs
 
 Trên máy Ubuntu và máy ELK, chúng ta khởi chạy Elasticsearch, Logstash, Kibana và Filebeat bằng câu lệnh sau:
 
+```bash
 sudo systemctl start [Tên dịch vụ]
+```
 
 Sau khi khởi chạy, chúng ta có thể kiểm tra trạng thái hoạt động hiện tại của từng dịch vụ bằng câu lệnh sau:
 
+```bash
 sudo systemctl status [Tên dịch vụ]
+```
 
 Trên máy Windows, chúng ta cài đặc dịch vụ Winlogbeat bằng PowerShell (điều hướng đến thư mục của Winlogbeat và chạy PowerShell bằng quyền Administrator) với câu lệnh:
 
+```powershell
 ./install-service-winlogbeat.ps1
+```
 
 Sau khi cài đặt dịch vụ, bằng Powershell trên, chúng ta tiếp tục chạy lệnh sau để khởi động Winlogbeat:
 
+```powershell
 Start-Service winlogbeat
+```
 
 Để kiểm tra trạng thái của Winlogbeat, chúng ta chạy câu lệnh PowerShell sau:
 
+```powershell
 Get-Service winlogbeat
+```
 
 ## Tạo các rule
 
-## Tạo dashboard
+Để tạo rule, ta điều hướng đến tab Security -> Rules, chọn Create new rule.
+
+### Brute Force: Password Guessing
+
+Mục tiêu của rule này là phát hiện các hành vi tấn công vét cạn (brute force) bằng cách đoán mật khẩu.
+
+Phần condition của rule này là:
+
+```kql
+event.action : logon-failed
+```
+
+Với Threshold: user.name >= 3
+
+Ý nghĩa của điều kiện này là lọc các log có trường thông tin `event.action` có giá trị `logon-failed`, tức là các hành vi đăng nhập thất bại.
+
+Phần schedule của rule này là khởi chạy mỗi 1 phút.
+
+### System Network Connections Discovery
+
+Mục tiêu của rule này là phát hiện hành vi quét thông tin mạng trên máy nạn nhân.
+
+Phần condition của rule này có nội dung như sau:
+
+```kql
+event.category: process and (process.args: "netstat" or powershell.file.script_block_text: *Get-NetTCPConnection* or process.args: "ss" or process.args: "lsof")
+```
+
+Ở đây, `event.category : process` lọc các dữ liệu log có phân loại là tiến trình (process), các giá trị `process.args` lọc các log có chứa các tham số là `netstat`, `ss`, `lsof` và `powershell.file.script_block_text : *Get-NetTCPConnection*` lọc các Windows PowerShell log mà chạy lệnh chứa `Get-NetTCPConnection`.
 
 # Kết quả
+
+## Tìm kiếm dữ liệu
+
+Một trong những chức năng quan trọng nhất của hệ thống này là tìm kiếm dữ liệu. Hình dưới đây mô tả kết quả của một câu tìm kiếm dữ liệu. Câu truy vấn đã thực hiện là:
+
+```kql
+log.file.path : *audit*
+```
+
+Câu truy vấn này tìm kiếm các log có đường dẫn chứa từ `audit`. Trong các dữ liệu log đang thu thập, chỉ có dữ liệu từ audit log mới khớp với tìm kiếm này.
