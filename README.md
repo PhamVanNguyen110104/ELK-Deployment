@@ -1,6 +1,6 @@
 # Triển khai giải pháp SIEM ELK Stack
 
-I. ELK Stack là gì?
+# ELK Stack là gì?
 
 ELK Stack (ELK) là giải pháp SIEM của Elastic. Nó bao gồm 3 thành phần chính: Elasticsearch, Logstash và Kibana, thường được sử dụng cùng với nhau để thu thập, xử lý, lưu trữ, tìm kiếm và trực quan hóa dữ liệu một cách hiệu quả.
 
@@ -18,6 +18,10 @@ Hình dưới đây trực quan các thành phần chính của ELK.
 
 ![ELK](image/ELK.png)
 
-II. Triển khai
+# Triển khai
 
-III. Kết quả
+Hình dưới đây mô tả kiến trúc hệ thống sẽ triển khai. Cụ thể, Linux log được xử lý như sau: Linux log -> Filebeat -> Logstash -> Elasticearch. Còn Windows log được xử lý như sau: Windows log -> Winlogbeat, Elasticsearch.
+
+
+
+# Kết quả
