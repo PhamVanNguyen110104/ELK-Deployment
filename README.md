@@ -72,9 +72,13 @@ Winlogbeat được tải về từ trang chủ của Elastic (https://www.elast
 
 Giống như Filebeat, phần đầu tiên cần được cấu hình là phần đầu vào của Winlogbeat (phần winlogbeat.event_logs). Đó là dữ liệu log mà ELK muốn thu thập như Application, System, Security, Sysmon,. . . như hình dưới đây.
 
-Tiếp theo, Winlogbeat cần được cấu hình Kibana endpoint như Filebeat. Tương tự như Filebeat, host của Kibana có dạng: <Địa chỉ IP của máy ELK>:5601. Ở đây, 192.168.56.110 là địa chỉ IP của máy ELK.
+![Winlogbeat1](image/Winlogbeat1.png)
 
-Cuối cùng, Winlogbeat cần được cấu hình đầu ra. Trong đồ án này, dữ liệu log từ Winlogbeat sẽ được gửi trực tiếp đến Elasticsearch mà không cần qua Logstash để xử lý. Phần cấu hình này nằm ở mục output.elasticsearch như hình dưới đây. Các mục cần cấu hình là:
+Tiếp theo, Winlogbeat cần được cấu hình Kibana endpoint như Filebeat như hình dưới đây. Tương tự như Filebeat, host của Kibana có dạng: <Địa chỉ IP của máy ELK>:5601. Ở đây, 192.168.56.110 là địa chỉ IP của máy ELK.
+
+![Winlogbeat2](image/Winlogbeat2.png)
+
+Cuối cùng, Winlogbeat cần được cấu hình đầu ra. Ở đây, dữ liệu log từ Winlogbeat sẽ được gửi trực tiếp đến Elasticsearch mà không cần qua Logstash để xử lý. Phần cấu hình này nằm ở mục output.elasticsearch như hình dưới đây. Các mục cần cấu hình là:
 
 * hosts: Host của Elasticsearch. Nó có dạng <Địa chỉ IP của máy ELK>:5601. Ở đây, 192.168.56.110 là địa chỉ IP của máy ELK.
 
@@ -84,9 +88,29 @@ Cuối cùng, Winlogbeat cần được cấu hình đầu ra. Trong đồ án n
 
 Tên đăng nhập và mật khẩu đăng nhập vào Elasticsearch sẽ được đề cập cụ thể ở phần sau.
 
+![Winlogbeat3](image/Winlogbeat3.png)
+
 ## Logstash
 
+Câu lệnh cài đặt Logstash bằng APT là:
+
+sudo apt-get install logstash
+
+Các tệp cấu hình của Logstash nằm trong thư mục /etc/logstash. Trong thư mục này, hai tệp cấu hình chính của Logstash là logstash.yml (cấu hình hoạt động của Logstash) và pipelines.yml (cấu hình pipeline các tệp cấu hình xử lý dữ liệu log). Ở đây, hai tệp cấu hình trên được giữ nguyên.
+
+Trong thư mục cấu hình của Logstash, có một thư mục quyết định cách thức xử lý dữ liệu log là /conf.d. Ban đầu, thư mục này không có bất kỳ tệp nào. Do vậy, cần tạo các tệp cấu hình cách thức xử lý dữ liệu log có đuôi .conf và lưu vào thư mục này. Repo Logstash-log-parsing-configuration-file (https://github.com/PhamVanNguyen110104/Logstash-log-parsing-configuration-file) chứa các tệp cấu hình trên. Thứ tự xử lý từ 00 đến số lớn nhất.
+
 ## Elasticsearch
+
+Câu lệnh cài đặt Elasticsearch bằng hệ thống APT là:
+
+sudo apt-get install elasticsearch
+
+Các tệp cấu hình của Elasticsearch nằm trong thư mục /etc/elasticsearch. Trong thư mục này, tệp cấu hình các chức năng chính của Elasticsearch là elasticsearch.yml.
+
+Phần cấu hình đầu tiên là mục Discovery, được thể hiện trong hình dưới đây. Ở đây, discovery là tiến trình mà các node trong một cluster sử dụng để tìm thấy nhau nhằm hình thành hoặc duy trì một cluster ổn định. Trong dự án này, do Elasticsearch chỉ chạy một node duy nhất nên tệp này có dòng cấu hình: discovery.type: singlenode. Ngoài ra, dòng cấu hình network.bind_host: ["127.0.0.1", "192.168.56.110"] chỉ ra các địa chỉ IP mà Elasticsearch lắng nghe. Cụ thể, người dùng chỉ có thể truy cập Elasticsearch từ chính máy đang cài đặt Elasticsearch (máy ELK) hoặc từ các máy tính khác trong cùng dải mạng nội bộ 192.168.56.x.
+
+Phần cấu hình thứ hai là mục Security. Đây là chức năng quan trọng của Elasticsearch vì nó là nơi viết các rule phát hiện các hành vi bất thường và là nơi phát cảnh báo nếu thỏa mãn rule. Mặc định, chức năng này bị tắt. Do vậy, cấu hình Elasticsearch cần có 2 dòng như hình dưới đây. Cụ thể, dòng xpack.security.enabled: true kích hoạt chức năng Security. Còn dòng xpack.security.authc.api_key.enabled: true để bật API key, khóa xác thực truy cập vào Elasticsearch.
 
 ## Kibana
 
