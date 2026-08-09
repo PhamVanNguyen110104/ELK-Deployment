@@ -48,9 +48,41 @@ sudo apt-get install filebeat
 
 Toàn bộ các tệp cấu hình của Filebeat sau khi tải về sẽ nằm trong thư mục /etc/filebeat. Trong thư mục này, tệp cấu hình chính là filebeat.yml. Tệp này cấu hình các chức năng của Filebeat.
 
+Phần đầu tiên cần được cấu hình trong tệp trên là đầu vào của Filebeat. Hình dưới đây thể hiện các mục trong phần cấu hình đầu vào. Cụ thể như sau:
 
+* type: Định nghĩa loại dữ liệu đầu vào. Ở đây, dữ liệu đầu vào là các dòng log nên mặc định sẽ chọn "filestream".
+
+* id: Gán định danh cho dữ liệu đầu vào trên. Mục này được để mặc định.
+
+* paths: Định nghĩa các đường dẫn tới tệp log trên máy Ubuntu. Ở đây, các đường dẫn được định nghĩa là toàn bộ các tệp có đuôi .log trong thư mục /var/log, tệp syslog và toàn bộ các tệp audit log có đuôi .log trong thư mục /var/log/audit.
+
+![Filebeat1](image/FilebeatConfig1.png)
+
+Phần tiếp theo cần được cấu hình là Kibana endpoint để Kibana trên máy ELK nhận được thông tin từ Filebeat, được thể hiện ở hình dưới đây. Phần này chỉ cấu hình host của Kibana theo dạng: <Địa chỉ IP của máy ELK>:5601. Ở đây, địa chỉ IP của máy ELK là 192.168.56.110.
+
+![Filebeat2](image/FilebeatConfig2.png)
+
+Phần cuối cùng cần được cấu hình là đầu ra của Filebeat. Do đầu ra là Logstash trên máy ELK, nên phần cấu hình là output.logstash như hình dưới đây. Phần này chỉ cấu hình host của Logstash theo dạng: <Địa chỉ IP của máy ELK>:5044. Ở đây, địa chỉ IP của máy ELK là 192.168.56.110.
+
+![Filebeat3](image/FilebeatConfig3.png)
 
 ## Winlogbeat
+
+Winlogbeat được tải về từ trang chủ của Elastic (https://www.elastic.co/downloads/past-releases/winlogbeat-7-17-29) và được về thư mục C:\Users\MayWindows\Desktop\winlogbeat. Tệp cấu hình các chức năng chính của Winlogbeat là winlogbeat.yml.
+
+Giống như Filebeat, phần đầu tiên cần được cấu hình là phần đầu vào của Winlogbeat (phần winlogbeat.event_logs). Đó là dữ liệu log mà ELK muốn thu thập như Application, System, Security, Sysmon,. . . như hình dưới đây.
+
+Tiếp theo, Winlogbeat cần được cấu hình Kibana endpoint như Filebeat. Tương tự như Filebeat, host của Kibana có dạng: <Địa chỉ IP của máy ELK>:5601. Ở đây, 192.168.56.110 là địa chỉ IP của máy ELK.
+
+Cuối cùng, Winlogbeat cần được cấu hình đầu ra. Trong đồ án này, dữ liệu log từ Winlogbeat sẽ được gửi trực tiếp đến Elasticsearch mà không cần qua Logstash để xử lý. Phần cấu hình này nằm ở mục output.elasticsearch như hình dưới đây. Các mục cần cấu hình là:
+
+* hosts: Host của Elasticsearch. Nó có dạng <Địa chỉ IP của máy ELK>:5601. Ở đây, 192.168.56.110 là địa chỉ IP của máy ELK.
+
+* username: Tên đăng nhập vào Elasticsearch.
+
+* password: Mật khẩu đăng nhập vào Elasticsearch.
+
+Tên đăng nhập và mật khẩu đăng nhập vào Elasticsearch sẽ được đề cập cụ thể ở phần sau.
 
 ## Logstash
 
