@@ -233,3 +233,11 @@ log.file.path : *audit*
 ```
 
 Câu truy vấn này tìm kiếm các log có đường dẫn chứa từ `audit`. Trong các dữ liệu log đang thu thập, chỉ có dữ liệu từ audit log mới khớp với tìm kiếm này.
+
+![Search](image/Search.png)
+
+## Sinh alert (cảnh báo)
+
+Các alert được hiển thị ở tab Security -> Alerts
+
+Sau khi triển khai hệ thống và chạy thử các hành vi bất thường, các alert đã được sinh ra. Hình dưới đây là các alert đã được sinh ra.
