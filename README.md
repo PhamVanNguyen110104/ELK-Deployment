@@ -110,7 +110,11 @@ Các tệp cấu hình của Elasticsearch nằm trong thư mục /etc/elasticse
 
 Phần cấu hình đầu tiên là mục Discovery, được thể hiện trong hình dưới đây. Ở đây, discovery là tiến trình mà các node trong một cluster sử dụng để tìm thấy nhau nhằm hình thành hoặc duy trì một cluster ổn định. Trong dự án này, do Elasticsearch chỉ chạy một node duy nhất nên tệp này có dòng cấu hình: discovery.type: singlenode. Ngoài ra, dòng cấu hình network.bind_host: ["127.0.0.1", "192.168.56.110"] chỉ ra các địa chỉ IP mà Elasticsearch lắng nghe. Cụ thể, người dùng chỉ có thể truy cập Elasticsearch từ chính máy đang cài đặt Elasticsearch (máy ELK) hoặc từ các máy tính khác trong cùng dải mạng nội bộ 192.168.56.x.
 
+![Elasticearch1](image/Elasticsearch1.png)
+
 Phần cấu hình thứ hai là mục Security. Đây là chức năng quan trọng của Elasticsearch vì nó là nơi viết các rule phát hiện các hành vi bất thường và là nơi phát cảnh báo nếu thỏa mãn rule. Mặc định, chức năng này bị tắt. Do vậy, cấu hình Elasticsearch cần có 2 dòng như hình dưới đây. Cụ thể, dòng xpack.security.enabled: true kích hoạt chức năng Security. Còn dòng xpack.security.authc.api_key.enabled: true để bật API key, khóa xác thực truy cập vào Elasticsearch.
+
+![Elasticearch2](image/Elasticsearch2.png)
 
 ## Kibana
 
