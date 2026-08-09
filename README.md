@@ -126,7 +126,11 @@ Các tệp cấu hình của Kibana nằm trong thư mục /etc/kibana. Trong th
 
 Phần cấu hình đầu tiên là địa chỉ IP của Kibana để người dùng truy cập, được thể hiện ở hình dưới đây. Dòng cấu hình server.host: "0.0.0.0" chỉ định Kibana chỉ được truy cập từ chính máy đang cài đặt nó - máy ELK.
 
+![Kibana1](image/Kibana1.png)
+
 Phần cấu hình tiếp theo là URL trỏ đến Elasticsearch mà Kibana muốn truy cập để hiển thị dữ liệu, thể hiện ở hình dưới đây. Đó là địa chỉ IP và số hiệu cổng mặc định của Elasticsearch.
+
+![Kibana2](image/Kibana2.png)
 
 Phần cấu hình tiếp theo là tài khoản đăng nhập vào Elasticsearch. Trước khi thực hiện cấu hình này, tài khoản truy cập Elasticsearch cần được tạo mật khẩu mới với tên tài khoản mặc định là "elastic". Việc này được thực hiện bởi một shell script tạo mật khẩu Elasticsearch có tên elasticsearch-setup-passwords, nằm tại đường dẫn /usr/share/elasticsearch/bin. Câu lệnh chạy script này là:
 
@@ -134,12 +138,36 @@ Phần cấu hình tiếp theo là tài khoản đăng nhập vào Elasticsearch
 
 Nếu muốn tạo một mật khẩu ngẫu nhiên thì chọn giá trị auto; ngược lại, nếu muốn chỉ định một mật khẩu thì chọn giá trị interactive và gõ mật khẩu đó theo hướng dẫn của script. Ở đây, mật khẩu là "123456". Sau khi tạo mật khẩu thành công, chúng ta có thể nhập tên đăng nhập và mật khẩu trên vào hai dòng cấu hình elasticsearch.username và elasticsearch.password như hình dưới đây.
 
+![Kibana3](image/Kibana3.png)
+
 Phần cấu hình cuối cùng là tính năng Encrypted Saved Objects. Đây là tính năng bắt buộc phải được kích hoạt để mã hóa các dữ liệu nhạy cảm mà Kibana trao đổi với Elasticsearch như rule, API key. Dòng cấu hình sau kích hoạt chức năng này với một khoá ngẫu nhiên dài 32 ký tự (ở đây đang chọn giá trị khoá là A7kP2mX9qL4vN8cR1tY6uB3dF5gH0jWs):
 
 xpack.encryptedSavedObjects.encryptionKey: A7kP2mX9qL4vN8cR1tY6uB3dF5gH0jWs
 
-## Tạo rule
+## Khởi chạy hệ thống
 
-## Tạo alert
+Trên máy Ubuntu và máy ELK, chúng ta khởi chạy Elasticsearch, Logstash, Kibana và Filebeat bằng câu lệnh sau:
+
+sudo systemctl start [Tên dịch vụ]
+
+Sau khi khởi chạy, chúng ta có thể kiểm tra trạng thái hoạt động hiện tại của từng dịch vụ bằng câu lệnh sau:
+
+sudo systemctl status [Tên dịch vụ]
+
+Trên máy Windows, chúng ta cài đặc dịch vụ Winlogbeat bằng PowerShell (điều hướng đến thư mục của Winlogbeat và chạy PowerShell bằng quyền Administrator) với câu lệnh:
+
+./install-service-winlogbeat.ps1
+
+Sau khi cài đặt dịch vụ, bằng Powershell trên, chúng ta tiếp tục chạy lệnh sau để khởi động Winlogbeat:
+
+Start-Service winlogbeat
+
+Để kiểm tra trạng thái của Winlogbeat, chúng ta chạy câu lệnh PowerShell sau:
+
+Get-Service winlogbeat
+
+## Tạo các rule
+
+## Tạo dashboard
 
 # Kết quả
