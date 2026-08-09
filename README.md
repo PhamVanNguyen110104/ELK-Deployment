@@ -34,6 +34,22 @@ Các thành phần của ELK sẽ được triển khai trên các máy ảo đ�
 
 ## Filebeat
 
+Trước khi cài đặt các thành phần của hệ thống, trên máy ELK và máy Ubuntu cần chạy hai lệnh sau:
+
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+Câu lệnh đầu tiên sẽ tải tệp có chứa khóa GPG (GNU Privacy Guard) - cặp khóa mật mã cho ký số và xác thực dữ liệu từ Elastic - với chế độ im lặng (quiet mode) nhưng ghi nội dung đã tải được ra màn hình, sau đó thêm khóa GPG này vào hệ thống APT (Advanced Package Tool) - hệ thống quản lý các gói phần mềm mặc định của Ubuntu. Sau khi thực thi câu lệnh đầu tiên, câu lệnh thứ hai sẽ thêm repository của Elastic vào hệ thống APT để tải về các thành phần của ELK bằng lệnh apt.
+
+Tiếp theo, ta chạy câu lệnh tải Filebeat về máy Ubuntu:
+
+sudo apt-get install filebeat
+
+Toàn bộ các tệp cấu hình của Filebeat sau khi tải về sẽ nằm trong thư mục /etc/filebeat. Trong thư mục này, tệp cấu hình chính là filebeat.yml. Tệp này cấu hình các chức năng của Filebeat.
+
+
+
 ## Winlogbeat
 
 ## Logstash
