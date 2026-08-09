@@ -20,8 +20,28 @@ Hình dưới đây trực quan các thành phần chính của ELK.
 
 # Triển khai
 
+## Kiến trúc hệ thống
+
 Hình dưới đây mô tả kiến trúc hệ thống sẽ triển khai. Cụ thể, Linux log được xử lý như sau: Linux log -> Filebeat -> Logstash -> Elasticearch. Còn Windows log được xử lý như sau: Windows log -> Winlogbeat, Elasticsearch.
 
+![KienTruc](image/KienTruc.png)
 
+## Sơ đồ hệ thống
+
+Các thành phần của ELK sẽ được triển khai trên các máy ảo được tạo bởi Oracle VirtualBox. Hình dưới đây mô tả các máy ảo sẽ được sử dụng. Máy ELK triển khai Logstash, Elasticsearch và Kibana. Máy Ubuntu sinh Linux log và triển khai Filebeat. Máy Windows sinh Windows log và triển khai Winlogbeat.
+
+## Filebeat
+
+## Winlogbeat
+
+## Logstash
+
+## Elasticsearch
+
+## Kibana
+
+## Tạo rule
+
+## Tạo alert
 
 # Kết quả
