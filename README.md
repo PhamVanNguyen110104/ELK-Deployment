@@ -118,6 +118,26 @@ Phần cấu hình thứ hai là mục Security. Đây là chức năng quan tr�
 
 ## Kibana
 
+Câu lệnh cài đặt Kibana bằng hệ thống APT là:
+
+sudo apt-get install kibana
+
+Các tệp cấu hình của Kibana nằm trong thư mục /etc/kibana. Trong thư mục này, tệp cấu hình các chức năng chính của Kibana là kibana.yml.
+
+Phần cấu hình đầu tiên là địa chỉ IP của Kibana để người dùng truy cập, được thể hiện ở hình dưới đây. Dòng cấu hình server.host: "0.0.0.0" chỉ định Kibana chỉ được truy cập từ chính máy đang cài đặt nó - máy ELK.
+
+Phần cấu hình tiếp theo là URL trỏ đến Elasticsearch mà Kibana muốn truy cập để hiển thị dữ liệu, thể hiện ở hình dưới đây. Đó là địa chỉ IP và số hiệu cổng mặc định của Elasticsearch.
+
+Phần cấu hình tiếp theo là tài khoản đăng nhập vào Elasticsearch. Trước khi thực hiện cấu hình này, tài khoản truy cập Elasticsearch cần được tạo mật khẩu mới với tên tài khoản mặc định là "elastic". Việc này được thực hiện bởi một shell script tạo mật khẩu Elasticsearch có tên elasticsearch-setup-passwords, nằm tại đường dẫn /usr/share/elasticsearch/bin. Câu lệnh chạy script này là:
+
+./usr/share/elasticsearch/bin/elasticsearch-setup-passwords [auto/interactive]
+
+Nếu muốn tạo một mật khẩu ngẫu nhiên thì chọn giá trị auto; ngược lại, nếu muốn chỉ định một mật khẩu thì chọn giá trị interactive và gõ mật khẩu đó theo hướng dẫn của script. Ở đây, mật khẩu là "123456". Sau khi tạo mật khẩu thành công, chúng ta có thể nhập tên đăng nhập và mật khẩu trên vào hai dòng cấu hình elasticsearch.username và elasticsearch.password như hình dưới đây.
+
+Phần cấu hình cuối cùng là tính năng Encrypted Saved Objects. Đây là tính năng bắt buộc phải được kích hoạt để mã hóa các dữ liệu nhạy cảm mà Kibana trao đổi với Elasticsearch như rule, API key. Dòng cấu hình sau kích hoạt chức năng này với một khoá ngẫu nhiên dài 32 ký tự (ở đây đang chọn giá trị khoá là A7kP2mX9qL4vN8cR1tY6uB3dF5gH0jWs):
+
+xpack.encryptedSavedObjects.encryptionKey: A7kP2mX9qL4vN8cR1tY6uB3dF5gH0jWs
+
 ## Tạo rule
 
 ## Tạo alert
